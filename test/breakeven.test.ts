@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ageInMonths, breakevenAge, cumulativeBenefit, type ClaimAge } from "../src/breakeven";
 
+/** Shorthand for building a claiming age. */
 const age = (age_year: number, age_month: number): ClaimAge => ({ age_year, age_month });
 
 describe("ageInMonths", () => {

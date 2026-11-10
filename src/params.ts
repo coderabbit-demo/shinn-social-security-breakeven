@@ -14,15 +14,18 @@ export const DEFAULT_INPUTS: Inputs = {
   b: { age_year: 67, age_month: 1 },
 };
 
-const MAX_PIA = 100_000;
+/** Largest monthly benefit accepted from the URL or the form. */
+export const MAX_PIA = 100_000;
 
+/** Parses a whole number within `[min, max]`, or returns `fallback` if it's missing or invalid. */
 function intInRange(value: string | null, min: number, max: number, fallback: number): number {
   if (value === null || value.trim() === "") return fallback;
   const n = Number(value);
   return Number.isInteger(n) && n >= min && n <= max ? n : fallback;
 }
 
-function piaValue(value: string | null, fallback: number): number {
+/** Parses a monthly benefit greater than 0 and at most `MAX_PIA`, or returns `fallback`. */
+export function piaValue(value: string | null, fallback: number): number {
   if (value === null || value.trim() === "") return fallback;
   const n = Number(value);
   return Number.isFinite(n) && n > 0 && n <= MAX_PIA ? n : fallback;

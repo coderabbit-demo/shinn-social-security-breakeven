@@ -1,9 +1,10 @@
 import "./style.css";
 import { benefitMultiplier, EARLIEST_CLAIMING_AGE, MAX_CREDIT_AGE } from "./benefitMultiplier";
 import { ageInMonths, breakevenAge, type ClaimAge } from "./breakeven";
-import { DEFAULT_INPUTS, parseParams, toSearch, type Inputs } from "./params";
+import { DEFAULT_INPUTS, parseParams, piaValue, toSearch, type Inputs } from "./params";
 
-const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+/** Looks up an element by id, typed as `T`. */
+const $ =<T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
 const piaInput = $<HTMLInputElement>("pia");
 const selects = {
@@ -19,29 +20,33 @@ const dollars = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
+/** Formats an age as "78 years 8 months". */
 function formatAge(years: number, months: number): string {
   return `${years} years ${months} month${months === 1 ? "" : "s"}`;
 }
 
+/** Formats a claiming age, converting its 1-based month to months past the birthday. */
 function formatClaimAge(claim: ClaimAge): string {
   return formatAge(claim.age_year, claim.age_month - 1);
 }
 
+/** Adds one option per number from `from` to `to` to a select element. */
 function fillOptions(select: HTMLSelectElement, from: number, to: number, label: (n: number) => string) {
   for (let n = from; n <= to; n++) {
     select.add(new Option(label(n), String(n)));
   }
 }
 
+/** Reads the current form values, using the same benefit limits as the URL parameters. */
 function readInputs(): Inputs {
-  const pia = Number(piaInput.value);
   return {
-    pia: Number.isFinite(pia) && pia > 0 ? pia : DEFAULT_INPUTS.pia,
+    pia: piaValue(piaInput.value, DEFAULT_INPUTS.pia),
     a: { age_year: Number(selects.a_year.value), age_month: Number(selects.a_month.value) },
     b: { age_year: Number(selects.b_year.value), age_month: Number(selects.b_month.value) },
   };
 }
 
+/** Sets the form fields from a set of inputs. */
 function writeInputs(inputs: Inputs) {
   piaInput.value = String(inputs.pia);
   selects.a_year.value = String(inputs.a.age_year);
@@ -50,6 +55,7 @@ function writeInputs(inputs: Inputs) {
   selects.b_month.value = String(inputs.b.age_month);
 }
 
+/** Writes the inputs to the URL query string so the comparison can be shared. */
 function syncUrl(inputs: Inputs) {
   try {
     history.replaceState(null, "", `?${toSearch(inputs)}`);
@@ -58,6 +64,7 @@ function syncUrl(inputs: Inputs) {
   }
 }
 
+/** Recalculates both options and the breakeven age, and updates the page and URL. */
 function render() {
   const inputs = readInputs();
   syncUrl(inputs);
@@ -98,7 +105,8 @@ function render() {
 
 fillOptions(selects.a_year, EARLIEST_CLAIMING_AGE, MAX_CREDIT_AGE, String);
 fillOptions(selects.b_year, EARLIEST_CLAIMING_AGE, MAX_CREDIT_AGE, String);
-const monthLabel = (n: number) => `${n} (+${n - 1} mo)`;
+/** Labels a 1-based month of age, e.g. "4 (+3 mo)". */
+const monthLabel =(n: number) => `${n} (+${n - 1} mo)`;
 fillOptions(selects.a_month, 1, 12, monthLabel);
 fillOptions(selects.b_month, 1, 12, monthLabel);
 

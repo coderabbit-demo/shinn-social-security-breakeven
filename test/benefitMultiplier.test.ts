@@ -13,6 +13,7 @@ interface GroundTruthRow {
 
 const PIA = 1000;
 
+/** Reads the ground-truth table from the TSV fixture. */
 function loadGroundTruth(): GroundTruthRow[] {
   const path = fileURLToPath(new URL("./fixtures/benefit-multipliers.tsv", import.meta.url));
   const [, ...lines] = readFileSync(path, "utf8").trim().split("\n");
