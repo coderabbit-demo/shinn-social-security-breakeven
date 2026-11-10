@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+inheritance: false
+
+reviews:
+  # Show the configuration used, reviewed commits and skipped files in each review.
+  review_info: true
+  # Show ignored files, extra context used and suppressed comments in each review.
+  review_details: true
+  finishing_touches:
+    autofix:
+      enabled: true
