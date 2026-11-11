@@ -81,6 +81,42 @@
         </div>
         <p id="error" class="error" hidden></p>
       </section>
+
+      <section id="growth" class="growth" aria-labelledby="growth_title">
+        <div class="growth-head">
+          <h2 id="growth_title">Total benefits received by age</h2>
+          <div class="tabs" role="tablist" aria-label="View">
+            <button type="button" role="tab" id="tab_chart" aria-controls="panel_chart" aria-selected="true">Chart</button>
+            <button type="button" role="tab" id="tab_table" aria-controls="panel_table" aria-selected="false" tabindex="-1">Table</button>
+          </div>
+        </div>
+        <p class="growth-note">Running total in today's dollars, through age 100.</p>
+
+        <div id="panel_chart" role="tabpanel" aria-labelledby="tab_chart">
+          <ul class="legend">
+            <li><span class="legend-key series-a"></span><span id="legend_a">Option A</span></li>
+            <li><span class="legend-key series-b"></span><span id="legend_b">Option B</span></li>
+            <li id="legend_breakeven"><span class="legend-key legend-breakeven"></span>Breakeven age</li>
+          </ul>
+          <div id="chart" class="chart-wrap"></div>
+        </div>
+
+        <div id="panel_table" role="tabpanel" aria-labelledby="tab_table" hidden>
+          <div class="table-scroll" tabindex="0" aria-label="Total benefits by age">
+            <table class="growth-table">
+              <thead>
+                <tr>
+                  <th scope="col">Age</th>
+                  <th scope="col">Option A total</th>
+                  <th scope="col">Option B total</th>
+                  <th scope="col">Difference (B − A)</th>
+                </tr>
+              </thead>
+              <tbody id="growth_rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>

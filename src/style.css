@@ -6,6 +6,9 @@
   --border: #dcdcd6;
   --accent: #1f5fa8;
   --error: #b3261e;
+  --series-a: #2a78d6;
+  --series-b: #eb6834;
+  --grid: #ebebe6;
   color-scheme: light dark;
 }
 
@@ -18,6 +21,9 @@
     --border: #3a3a36;
     --accent: #7fb2ec;
     --error: #f2948d;
+    --series-a: #3987e5;
+    --series-b: #d95926;
+    --grid: #2c2c29;
   }
 }
 
@@ -137,6 +143,242 @@ thead th {
 .error {
   margin-top: 16px;
   color: var(--error);
+  font-weight: 600;
+}
+
+/* Growth chart and table */
+
+.growth {
+  margin-top: 32px;
+}
+
+.growth-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.growth h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.growth-note {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.tabs {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.tabs button {
+  padding: 4px 14px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.tabs button[aria-selected="true"] {
+  background: var(--bg);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-key,
+.tip-key {
+  display: inline-block;
+  width: 14px;
+  height: 0;
+  border-top: 2px solid currentColor;
+}
+
+.legend-breakeven {
+  border-top-style: dashed;
+  color: var(--muted);
+}
+
+.series-a {
+  color: var(--series-a);
+}
+
+.series-b {
+  color: var(--series-b);
+}
+
+.chart-wrap {
+  position: relative;
+  padding: 8px 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.chart-svg {
+  display: block;
+  touch-action: pan-y;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-svg:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.chart-grid line {
+  stroke: var(--grid);
+}
+
+.chart-grid text,
+.chart-axis text {
+  fill: var(--muted);
+}
+
+.chart-axis line {
+  stroke: var(--border);
+}
+
+.chart-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.chart-direct {
+  fill: var(--text);
+  font-weight: 600;
+}
+
+.chart-breakeven line {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 4;
+  stroke-linecap: round;
+}
+
+.chart-breakeven text {
+  fill: var(--text);
+  font-weight: 600;
+}
+
+.chart-hover line {
+  stroke: var(--muted);
+  stroke-width: 1;
+}
+
+.chart-hover circle {
+  fill: currentColor;
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.chart-tooltip {
+  position: absolute;
+  z-index: 1;
+  min-width: 200px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.12);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.tip-head {
+  margin-bottom: 4px;
+  color: var(--muted);
+}
+
+.tip-row {
+  display: grid;
+  grid-template-columns: 14px auto 1fr;
+  align-items: center;
+  gap: 0 8px;
+}
+
+.tip-row strong {
+  text-align: right;
+}
+
+.tip-label {
+  color: var(--muted);
+}
+
+.tip-key-none {
+  border-top-color: transparent;
+}
+
+.tip-row:last-child {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.table-scroll {
+  max-height: 420px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.growth-table {
+  margin: 0;
+}
+
+.growth-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+}
+
+.growth-table td {
+  text-align: right;
+}
+
+.growth-table thead th:not(:first-child) {
+  text-align: right;
+}
+
+.growth-table tr.is-breakeven {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.growth-table tr.is-breakeven th {
   font-weight: 600;
 }
 

@@ -6,6 +6,8 @@ Live page: https://coderabbit-demo.github.io/shinn-social-security-breakeven/
 ## Current scope
 Compares two ages to start benefits and shows the breakeven age: the age at which the later start has paid out the same total. It assumes no opportunity cost. Benefits rise with inflation through cost-of-living adjustments, so everything is in today's dollars and the breakeven doesn't depend on the inflation rate. Full retirement age is fixed at 67.
 
+Below the result, a **Chart** tab plots each option's running total of benefits through age 100, with a dotted line at the breakeven age; hover (or focus the chart and use the arrow keys) to see the age, both totals and the difference. A **Table** tab lists the same totals at each birthday, with the breakeven month highlighted.
+
 ## Development
 ```bash
 npm install
