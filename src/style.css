@@ -1,0 +1,149 @@
+:root {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --text: #1c1c1a;
+  --muted: #5f5f5a;
+  --border: #dcdcd6;
+  --accent: #1f5fa8;
+  --error: #b3261e;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161615;
+    --surface: #1f1f1d;
+    --text: #ececea;
+    --muted: #a3a39d;
+    --border: #3a3a36;
+    --accent: #7fb2ec;
+    --error: #f2948d;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+}
+
+.assumptions {
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+form {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+fieldset {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 16px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+legend {
+  padding: 0 4px;
+  font-weight: 600;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field span {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+  font-variant-numeric: tabular-nums;
+}
+
+th,
+td {
+  padding: 8px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+thead th {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.breakeven {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.breakeven .label {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.breakeven strong {
+  display: block;
+  font-size: 1.75rem;
+}
+
+.breakeven p {
+  margin: 8px 0 0;
+}
+
+.error {
+  margin-top: 16px;
+  color: var(--error);
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  th,
+  td {
+    padding: 6px 4px;
+    font-size: 0.875rem;
+  }
+}

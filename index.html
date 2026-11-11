@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Social Security breakeven age calculator: compare two claiming ages." />
+    <title>Social Security Breakeven</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Social Security Breakeven</h1>
+        <p class="assumptions">
+          Compares two ages to start benefits and shows the age at which waiting has paid out the
+          same total. Amounts are in today's dollars: benefits rise with inflation through cost-of-living
+          adjustments, and no investment return is assumed. Full retirement age is 67.
+        </p>
+      </header>
+
+      <form id="inputs" novalidate>
+        <label class="field">
+          <span>Monthly benefit at full retirement age (today's $)</span>
+          <input id="pia" name="pia" type="number" min="1" max="100000" step="1" inputmode="decimal" />
+        </label>
+
+        <fieldset>
+          <legend>Option A: start benefits at</legend>
+          <label class="field">
+            <span>Age</span>
+            <select id="a_year" name="a_year"></select>
+          </label>
+          <label class="field">
+            <span>Month of age</span>
+            <select id="a_month" name="a_month"></select>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Option B: start benefits at</legend>
+          <label class="field">
+            <span>Age</span>
+            <select id="b_year" name="b_year"></select>
+          </label>
+          <label class="field">
+            <span>Month of age</span>
+            <select id="b_month" name="b_month"></select>
+          </label>
+        </fieldset>
+      </form>
+
+      <section id="results" aria-live="polite">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Starts at</th>
+              <th scope="col">Multiplier</th>
+              <th scope="col">Monthly benefit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Option A</th>
+              <td id="a_age"></td>
+              <td id="a_mult"></td>
+              <td id="a_benefit"></td>
+            </tr>
+            <tr>
+              <th scope="row">Option B</th>
+              <td id="b_age"></td>
+              <td id="b_mult"></td>
+              <td id="b_benefit"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="breakeven">
+          <span class="label">Breakeven age</span>
+          <strong id="breakeven_age"></strong>
+          <p id="summary"></p>
+        </div>
+        <p id="error" class="error" hidden></p>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
