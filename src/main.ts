@@ -112,8 +112,8 @@ function render() {
     const result = breakevenAge(early, later);
     breakevenEl.textContent = formatAge(result.years, result.months);
     summaryEl.textContent =
-      `If you live past ${formatAge(result.years, result.months)}, waiting until ` +
-      `${formatClaimAge(later)} pays more in total. Otherwise, starting at ${formatClaimAge(early)} does.`;
+      `At or after ${formatAge(result.years, result.months)}, waiting until ` +
+      `${formatClaimAge(later)} pays at least as much in total as starting at ${formatClaimAge(early)}.`;
     errorEl.hidden = true;
   } catch (err) {
     breakevenEl.textContent = "—";
