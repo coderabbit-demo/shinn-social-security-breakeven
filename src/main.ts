@@ -1,10 +1,10 @@
 import "./style.css";
 import { benefitMultiplier, EARLIEST_CLAIMING_AGE, MAX_CREDIT_AGE } from "./benefitMultiplier";
 import { ageInMonths, breakevenAge, type ClaimAge } from "./breakeven";
-import { DEFAULT_INPUTS, parseParams, piaValue, toSearch, type Inputs } from "./params";
+import { MAX_PIA, parseParams, piaValue, toSearch, type Inputs } from "./params";
 
 /** Looks up an element by id, typed as `T`. */
-const $ =<T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
 const piaInput = $<HTMLInputElement>("pia");
 const selects = {
@@ -37,11 +37,16 @@ function fillOptions(select: HTMLSelectElement, from: number, to: number, label:
   }
 }
 
-/** Reads the current form values, using the same benefit limits as the URL parameters. */
-function readInputs(): Inputs {
+/**
+ * Reads the current form values, using the same benefit limits as the URL parameters.
+ * Returns null if the benefit field is empty or out of range.
+ */
+function readInputs(): Inputs | null {
+  const pia = piaValue(piaInput.value, NaN);
+  if (Number.isNaN(pia)) return null;
   return {
-    pia: piaValue(piaInput.value, DEFAULT_INPUTS.pia),
-    a: { age_year: Number(selects.a_year.value), age_month: Number(selects.a_month.value) },
+    pia,
+    a:{ age_year: Number(selects.a_year.value), age_month: Number(selects.a_month.value) },
     b: { age_year: Number(selects.b_year.value), age_month: Number(selects.b_month.value) },
   };
 }
@@ -64,9 +69,29 @@ function syncUrl(inputs: Inputs) {
   }
 }
 
+/** Blanks every result on the page. */
+function clearResults() {
+  for (const id of ["a_age", "a_mult", "a_benefit", "b_age", "b_mult", "b_benefit"]) {
+    $(id).textContent = "—";
+  }
+  $("breakeven_age").textContent = "—";
+  $("summary").textContent = "";
+}
+
 /** Recalculates both options and the breakeven age, and updates the page and URL. */
 function render() {
   const inputs = readInputs();
+  piaInput.setAttribute("aria-invalid", String(inputs === null));
+
+  if (inputs === null) {
+    // Don't show results for a value the field doesn't contain, or put it in the URL.
+    clearResults();
+    const errorEl = $("error");
+    errorEl.textContent = `Enter a monthly benefit greater than $0 and no more than ${dollars.format(MAX_PIA)}.`;
+    errorEl.hidden = false;
+    return;
+  }
+
   syncUrl(inputs);
 
   for (const [key, claim] of [["a", inputs.a], ["b", inputs.b]] as const) {
@@ -106,7 +131,7 @@ function render() {
 fillOptions(selects.a_year, EARLIEST_CLAIMING_AGE, MAX_CREDIT_AGE, String);
 fillOptions(selects.b_year, EARLIEST_CLAIMING_AGE, MAX_CREDIT_AGE, String);
 /** Labels a 1-based month of age, e.g. "4 (+3 mo)". */
-const monthLabel =(n: number) => `${n} (+${n - 1} mo)`;
+const monthLabel = (n: number) => `${n} (+${n - 1} mo)`;
 fillOptions(selects.a_month, 1, 12, monthLabel);
 fillOptions(selects.b_month, 1, 12, monthLabel);
 
